@@ -1,0 +1,30 @@
+<html>
+
+<body>
+  <div id="status"></div>
+  <br />
+  <br />
+  <br />
+  <div id="msg"></div>
+</body>
+
+<script src="http://localhost:4444/socket.io/socket.io.js"></script>
+<script>
+  var socket = io.connect('http://localhost:4444');
+
+  socket.on('registered', function(id) {
+    document.getElementById("status").innerHTML = "I got registered & my id is " + id;
+  });
+
+  socket.on('cell_update', function (data, fn) {
+    msg = document.getElementById("msg");
+    msg.innerHTML += "Got cell_update: ";
+    msg.innerHTML += "<br />" + JSON.stringify(data) + " <br />";
+    msg.innerHTML += "Cell Label: <b>" +data.cells[0].label + "</b>";
+
+    fn("got it");
+
+  });
+</script>
+
+</html>
